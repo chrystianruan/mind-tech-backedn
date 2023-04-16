@@ -21,7 +21,7 @@ use App\Http\Controllers\api\GeneralController;
 });
  */
 
-Route::post('/new-client-and-message', [GeneralController::class, 'newClient']);
+Route::post('/new-client-and-message', [GeneralController::class, 'newClientAndMessage']);
 Route::get('/messages', [MessageController::class, 'getAllMessages']);
 Route::get('/clients', [ClientController::class, 'getAllClients']);
 Route::get('/messages/{id}', [MessageController::class, 'getAllMessagesOfUser']);
