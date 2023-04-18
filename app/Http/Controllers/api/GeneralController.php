@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Message;
+use Mail;
+use App\Mail\FirstContactMessage;
 
 class GeneralController extends Controller
 {
@@ -19,6 +21,13 @@ class GeneralController extends Controller
                 $message->client_id = $client->id;
                 $message->message = $request->message;
                 $message->save();
+                $mailData = [
+                    'title' => 'Agradecemos seu contato',
+                    'contact' => ''.$client->name,
+                    'body' => 'Olá seja bem vindo! Obrigado pela preferência! Informamos que logo logo entraremos em contato com você'
+                ];
+                Mail::to(''.$client->email)->send(new FirstContactMessage($mailData));
+
                 return response()->json([
                     "response" => "client already exists, but your message was sent"
                 ], 200);
@@ -37,6 +46,13 @@ class GeneralController extends Controller
             $message->client_id = $client->id;
             $message->message = $request->message;
             $message->save();
+            $mailData = [
+                'title' => 'Agradecemos seu contato',
+                'contact' => ''.$request->name,
+                'body' => 'Olá seja bem vindo! Obrigado pela preferência! Informamos que logo logo entraremos em contato com você'
+            ];
+            Mail::to(''.$request->email)->send(new FirstContactMessage($mailData));
+            
             return response()->json([
                 "response" => "sucessfully client registered and sent message"
             ], 200);
